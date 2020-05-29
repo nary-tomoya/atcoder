@@ -1,57 +1,36 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-vector<string> split(string str, char del) {
-    int first = 0;
-    int last = str.find_first_of(del);
-    
- 
-    vector<string> result;
-    if (str.find_first_of(del) == string::npos){
-         result.push_back(str);
-         return result;
-    } 
-
- 
-    while (first < str.size()) {
-        std::string subStr(str, first, last - first);
- 
-        result.push_back(subStr);
- 
-        first = last + 1;
-        last = str.find_first_of(del, first);
- 
-        if (last == string::npos) {
-            last = str.size();
+bool getNum(int num, vector<int>&D){
+    string n = to_string(num);
+    for(int i = 0; i < n.size(); i++){
+        for(int j = 0; j < D.size(); j++){
+            if(n[i] - '0' == D.at(j)){
+                return false;
+            }
         }
     }
- 
-    return result;
+    return true;
 }
 
 int main(){
-    string nums;
-    cin >> nums;
-    vector<int>array;
-    for(int i = 0; i < nums.size(); i++){
-        int n = nums[i] - '0';
-        array.push_back(n);
+    int N;
+    int K;
+    cin >> N >> K;
+    vector<int>D;
+    for(int i = 0; i < K; i++){
+        int d;
+        cin >> d;
+        D.push_back(d);
     }
     
-    int n = array.size() - 1;
-    
-    long long sum = 0;
-    for(int bit = 0; bit < (1 << n); bit++){
-        string num = nums;
-        for(int i = 0; i < n; i++){
-            if(bit & (1 << i)){
-                num.insert(i+1+(num.size() - nums.size()),"+");
-            } 
+    bool flag = true;
+    while(flag){
+        if (getNum(N,D)){
+            cout << N << endl;
+            break;
         }
-        vector<string> n= split(num,'+');
-        for(auto i : n){
-            sum += atoll(i.c_str());
-        }
+        N ++;
     }
-    cout << sum << endl;
 }
+
